@@ -1,25 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
+import { Age } from './Age';
+import { useState,useEffect } from 'react';
+import axios from 'axios';
+
+
+
 
 function App() {
+  
+  const [fact,setFact] = useState(null)
+
+  const generateFact = () => {
+    axios.get('https://catfact.ninja/fact')
+    .then(res => {
+      setFact(res.data.fact)
+    })
+  }
+
+  useEffect(() => {
+
+    generateFact()
+
+  },[])
+
+  //generateFact()
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <button onClick={generateFact}>Generate Cat Fact</button>
+     <p>{fact}</p>
+     <br />
+     <Age />
     </div>
   );
 }
+
 
 export default App;
